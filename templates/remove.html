@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block title %} Remove {{cat}} {% endblock %} {%
+block content %} {% if cat == "book" %}
+<!-- Remove a book -->
+<form style="margin-top: 1rem; margin-left: 1rem" method="post">
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Book Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="exampleFormControlInput1"
+      placeholder="Book Name"
+      name="book_name"
+      required
+    />
+  </div>
+  <input class="btn btn-primary btn-lg" type="submit" value="Delete Book" />
+</form>
+> {% if book_deleted == True %}
+<h2>Book deleted successfully</h2>
+{% elif book_deleted == False %}
+<h2>No Books Found With This Name. Try Again.</h2>
+<h5>In order to see the current book list</h5>
+<form action="/display/book/">
+  <input type="submit" value="Click here" />
+{% endif %}
+
+<!-- Remove a customer -->
+{% else %}
+<form style="margin-top: 1rem; margin-left: 1rem" method="post">
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Customer Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="exampleFormControlInput1"
+      placeholder="Customer Name"
+      name="customer_name"
+      required
+    />
+  </div>
+  <input class="btn btn-primary btn-lg" type="submit" value="Delete Customer" />
+</form>
+> {% if customer_deleted == True %}
+<h2>Customer deleted successfully</h2>
+{% elif customer_deleted == False %}
+<h2>No Customer Found With This Name. Try Again.</h2>
+<h5>In order to see the current customer list</h5>
+<form action="/display/customer/">
+  <input type="submit" value="Click here" />
+
+{% endif %} {% endif %} {% endblock %}

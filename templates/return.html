@@ -1,0 +1,47 @@
+{% extends 'base.html' %} {% block title %} Return Book {% endblock %} {% block
+content %}
+<!-- Selection Gui -->
+<form style="margin-top: 1rem; margin-left: 1rem" method="post">
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Select Book</label>
+    <select
+      class="form-control"
+      id="exampleFormControlSelect1"
+      name="book"
+      required
+    >
+      {% for i in range(book_details|length) %}
+      <option value="{{book_details[i][0]}}">{{book_details[i][1]}}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Select Customer</label>
+    <select
+      class="form-control"
+      id="exampleFormControlSelect1"
+      name="customer"
+      required
+    >
+      {% for i in range(customer_details|length) %}
+      <option value="{{customer_details[i][0]}}">
+        {{customer_details[i][1]}}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <input class="btn btn-primary btn-lg" type="submit" value="Return Book" />
+</form>
+<!-- if the book Successfully returned tell that to the client  -->
+{% if returned == True %}
+<h3>Book Returned Successfully</h3>
+{% elif returned == False %}
+<h3>
+  Return Failed. One of the choices is wrong. Try to display all the loans first
+  to see the right settings.  <h5>To see the current loaned books click on more details</h5> 
+  <form action="/display/loan/">
+    <input type="submit" value="More details" />
+</h3>
+{% endif %} {% endblock %}

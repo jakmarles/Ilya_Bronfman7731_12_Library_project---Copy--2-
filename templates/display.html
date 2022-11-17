@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block title %} Display {{cat}} {% endblock %} {%
+block content %} {% if cat == "book" %}
+<!-- if category = book > display this -->
+<h1>Books</h1>
+{% for book in book_names %}
+<h4 style="margin-left: 1rem">Book name: {{book[0]}}</h4>
+{% endfor %}
+<br>
+<h5>To find more details about a certian book</h5>
+<form action="/find/book/">
+  <input type="submit" value="Click Here" />
+</form>
+{% elif cat == "customer" %}
+<!-- if category = customers > display this -->
+<h1>Customers</h1>
+{% for customer in customer_names %}
+<h4 style="margin-left: 1rem">{{customer[0]}}</h4>
+{% endfor %} <br>
+<h5>To find more details about a certian customer</h5>
+<form action="/find/customer/">
+  <input type="submit" value="Click here" />
+</form>
+{% elif cat == "loan" %}
+<!-- if category = loan > display this -->
+<h1>Loans</h1>
+<h5>The current loans are: </h5>
+{% for i in range(customers|length) %}
+<h4 style="margin-left: 1rem">
+  Customer Name: {{customers[i][0]}} | Book Name: {{books[i][0]}} | Loan Date:
+  {{loan_dates[i]}} | Return Date: {{return_dates[i]}}
+</h4>
+{% endfor %} {% elif cat == "lateloan" %}
+<!-- if category = late loan > display this -->
+<h1>Late Loans</h1>
+<h5>The current late loans are: </h5>
+{% for i in range(customers|length) %}
+<h5 style="margin-left: 1rem">
+  Customer Name: {{customers[i][0]}} | Book Name: {{books[i][0]}} | Loan Date:
+  {{loan_dates[i]}} | Return Date: {{return_dates[i]}} | {{late_days[i]}} Days
+  Late
+</h5>
+{% endfor %} {% endif %} {% endblock %}

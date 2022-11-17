@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %} Loan Book {% endblock %}
+
+{% block content %}
+
+<form style="margin-top:1rem ; margin-left: 1rem;" method = "post" onsubmit=" return submitted()">  <!-- Loan a book interface -->
+    <div class="form-group">
+        <label for="exampleFormControlSelect1"> <h3>Select Book </h3>
+            <h5> If this form is empty all the books are loaned.</h5>
+        </label>
+        <select class="form-control" id="exampleFormControlSelect1" name = "book" required>
+            {% for i in range(book_details|length) %}
+            <option value={{book_details[i][0]}}>{{book_details[i][1]}} | Type : {{book_details[i][2]}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlSelect2">Select Customer</label> <!-- Select what customer you are willing to loan the book to -->
+        <select class="form-control" id="exampleFormControlSelect2" name = "customer" required>
+            {% for i in range(customer_details|length) %}
+            <option  value={{customer_details[i][0]}}>{{customer_details[i][1]}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Loan Date</label> <!-- Loan date -->
+        <input type="date"  name="loan_date" id = "loan_date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Return Date</label>
+        <input type="date"  name="return_date" id = "return_date" oninput="loan_duration_validate()" required> <!-- Return day for the book -->
+      </div>
+      <h4>Type 1 - up to 10 days </h1>
+        <h4>Type 2 - up to 5 days </h1>
+        <h4>Type 3 - up to 2 days </h1>
+      <input class="btn btn-primary btn-lg"  type="submit" value="Loan Book" >
+</form>
+<script> // Check for the type of each book and limit their possible return perion without it being late
+
+    
+    function loan_duration_validate(type){   // Limit the user return date to the time of each book type
+
+
+        let loan_date = document.getElementById("loan_date").value;
+        
+        if (loan_date == ""){
+            alert("Select loan date first.");
+            document.getElementById("return_date").value = "";
+        }
+        else{
+            let return_date = document.getElementById("return_date").value;
+            let days = (new Date(return_date).getTime() - new Date(loan_date).getTime())/(1000 * 3600 * 24);
+
+            let sel = document.getElementById("exampleFormControlSelect1");
+            let type = parseInt(sel.options[sel.selectedIndex].text.split(':').map(element => element.trim())[1]);
+            let allowed_days = 0;
+            
+            if (type == 1){
+                allowed_days = 10;
+            }
+            else if(type == 2 ){
+                allowed_days = 5;
+            }
+            else{
+                allowed_days = 2;
+            }
+
+            if (days > allowed_days){
+                alert("You can take this book on loan for only " + allowed_days + " days") // if the user choose wrong amount of days alert him about doing something illegal
+                document.getElementById("return_date").value = "";
+            }
+            if (loan_date >= return_date) {
+                alert("The selected return date is invalid. Please select a different return date.") // a safety check so the user doesnt chose the same return day or a date in the past compared to the loan date, || note to eyal: remove the "=" incase you don't need it i wasnt sure about that.
+                document.getElementById("return_date").value = "";
+
+                
+            }
+        }
+    }
+    
+    function submitted(){
+        alert("Successfull")
+    }
+  </script>
+{% endblock %}
+
