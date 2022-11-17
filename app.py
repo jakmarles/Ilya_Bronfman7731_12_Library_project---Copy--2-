@@ -243,7 +243,7 @@ def add(cat):
 if __name__ == '__main__':
     db.base.metadata.create_all(db.engine)  # create database
     Session = sessionmaker(bind=db.engine)  # initialize sessionmaker
-  # make Session object
+    session = Session() # make Session object
     init_db.db_load_example_data_customers(app, db, session) # runs the init db if the customer database is empty
     init_db.db_load_example_data_books(app, db, session) # runs the init db if the book database is empty
     app.run(debug=True)  # run flask app
